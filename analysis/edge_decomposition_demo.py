@@ -4,7 +4,7 @@ from edge_decomposition import EdgeDecompConfig, decompose_edge_curve
 
 def main():
     print("\n" + "=" * 80)
-    print("JM Alpha — Edge Decomposition Demo")
+    print("JM Edge Decomposition Demo")
     print("=" * 80)
 
     # Synthetic books for demonstration (replace with real snapshots later)
