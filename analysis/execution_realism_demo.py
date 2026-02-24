@@ -1,7 +1,7 @@
 from pathlib import Path
 import pandas as pd
 
-from execution_realism import slippage_vs_size, cross_venue_edge, save_slippage_plot
+from execution_realism_module import slippage_vs_size, cross_venue_edge, save_slippage_plot
 
 def main():
     # Small sanity-check orderbook
