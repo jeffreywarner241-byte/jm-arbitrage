@@ -18,7 +18,7 @@ Core analytical components:
   - Computes executable quantity
   - Evaluates scalability of opportunities
 
-  - **Edge Persistence (Half-Life) Module**
+- **Edge Persistence (Half-Life) Module**
   - Measures how long executable edge persists over time per Opportunity_ID
   - Converts snapshot “live/not-live” states into contiguous opportunity events
   - Outputs event duration statistics (median duration as a half-life proxy)
