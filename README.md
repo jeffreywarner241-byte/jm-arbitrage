@@ -1,13 +1,17 @@
-## Execution Realism Analysis
+This project is structured as a research framework for analyzing cross-platform
+prediction market inefficiencies.
 
-Location:
-analysis/execution_realism_module.py
+Core analytical components:
 
-Demo:
-python analysis/execution_realism_demo.py
+- **Execution Realism Module**
+  - Models VWAP degradation
+  - Quantifies slippage vs size
+  - Detects partial fill risk
 
-Demonstrates:
-- Orderbook walking (VWAP)
-- Slippage vs trade size
-- Cross-venue edge degradation
-- Partial fill modeling
+- **Edge Decomposition Engine**
+  - Breaks raw spreads into:
+    - VWAP-adjusted edge
+    - Fee-adjusted edge
+    - Latency-adjusted edge
+  - Computes executable quantity
+  - Evaluates scalability of opportunities
