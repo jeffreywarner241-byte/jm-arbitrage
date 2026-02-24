@@ -288,7 +288,7 @@ def cross_venue_edge(
     - Sell on sell_book (walk bids)
     - Apply placeholder fee + latency buffer
 
-    This is a clean analysis utility, not production execution logic.
+    Analysis utility.
     """
     buy_res = walk_book_vwap(buy_book, trade_size, side="ask")
     sell_res = walk_book_vwap(sell_book, trade_size, side="bid")
@@ -319,7 +319,7 @@ def cross_venue_edge(
 
 
 # ----------------------------
-# Plot helpers (optional)
+# Plot helpers
 # ----------------------------
 
 def save_slippage_plot(df: pd.DataFrame, outpath: Path, title: str) -> None:
