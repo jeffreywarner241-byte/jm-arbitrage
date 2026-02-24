@@ -157,7 +157,7 @@ def walk_book_vwap(
     filled = 0.0
     levels_used = 0
 
-    # Iterate level-by-level
+    # Iterate level by level
     for _, row in ob.iterrows():
         if remaining <= 0:
             break
