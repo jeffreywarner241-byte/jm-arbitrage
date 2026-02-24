@@ -92,7 +92,7 @@ def binary_fee_placeholder(price: float, fee_rate: float) -> float:
 
     Notes
     -----
-    - This is NOT a verified venue schedule.
+    - This is NOT a verified venue schedule. But mirrors Kalshi's recent structure.
     - It's only meant to demonstrate that fees are nonlinear in binary prices.
     """
     p = float(price)
