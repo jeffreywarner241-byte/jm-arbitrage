@@ -1,22 +1,22 @@
 """
-JM Alpha — Execution Realism Utilities
+Execution Realism Utilities
 =====================================
 
 Purpose
 -------
-This module provides a clean, reusable implementation of "orderbook walking" to compute
-VWAP (volume-weighted average price) and diagnose execution realism:
+A reusable implementation of "orderbook walking" to compute
+VWAP and diagnose execution realism considering:
 
 - Limited depth at the top of book
 - Slippage as size increases
-- Partial fills (cannot assume full execution)
+- Partial fills 
 - Simple cross-venue edge calculation (placeholder fee model)
 
-Important disclaimers
+Disclaimers
 ---------------------
-- This is an *analysis* module, not production trading logic.
-- Fee modeling differs by venue and order type; the included fee logic is a placeholder.
-- Latency, cancellations, queue priority, and venue microstructure can materially change results.
+- This is an analysis module, not production trading logic.
+- Fee modeling differs by venue and order type, included fee logic is a placeholder.
+- Latency, cancellations, queue priority, and venue microstructure can change results.
 """
 
 from __future__ import annotations
@@ -84,7 +84,7 @@ def walk_book_vwap(
     ask_qty_col: str = "Ask_Qty",
 ) -> VWAPResult:
     """
-    Walk an orderbook and compute VWAP for executing `target_qty` contracts.
+    Walk orderbook and compute VWAP for executing `target_qty` contracts.
 
     Parameters
     ----------
