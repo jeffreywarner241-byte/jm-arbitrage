@@ -1,5 +1,5 @@
 I. Introduction & Our Project
-
+***
 Arbitrage is typically introduced in its most idealized form, a risk-free profit obtained by purchasing an asset at a lower price in one market and simultaneously selling it at a higher price in another. In textbook settings, the existence of a price discrepancy implies a temporary market efficiency, and the act of arbitrage restores equilibrium. In practice, and in my case within fragmented prediction markets operating across independent platforms (Kalshi and Polymarket for now), this definition proves to be incomplete.
 Cross-platform prediction markets present a uniquely fertile environment for structural inefficiencies. Liquidity is segmented, participant bases differ across venues, and contract specifications, while often economically aligned, are not always mechanically identical. Because larger institutional capital has only recently begun engaging these markets, price gaps can persist longer than in traditional asset classes. At first glance, such discrepancies appear to satisfy the textbook definition of arbitrage. However, quoted spreads alone do not determine realizable profit.
 Between the observed price difference and the final outcome lies a sequence of constraints: depth limitations, nonlinear slippage, fee friction, latency dispersion, resolution alignment, and capital scaling effects. What appears “risk-free” at the level of top-of-book prices may deteriorate materially once actual execution mechanics are introduced. Arbitrage in these environments is therefore not just a pricing problem, but an execution-constrained microstructure problem. As our framework evolved, an additional dimension showed to be equally important, which is time.
@@ -20,7 +20,7 @@ The objective of this paper is not to present performance results. Instead, it f
 
 
 II. Execution Realism
-
+***
 In fragmented prediction markets, top-of-book spreads frequently appear wide enough to imply attractive arbitrage. However, these quoted prices typically reflect only marginal liquidity. The depth available at the best bid or best ask is often insufficient to support meaningful trade size.
 In limit orderbook markets, execution price is determined not by the best displayed quote, but by the depth profile across multiple levels. When trade size exceeds the liquidity available at the top level, the order must “walk the book,” consuming progressively less favorable price levels. The resulting volume weighted average price (VWAP) may differ materially from the best quoted price. This degradation is nonlinear: small trades may execute near the top of the book, while larger trades experience disproportionately higher slippage as they penetrate deeper levels.
 Prediction markets amplify this effect due to typically thinner books and uneven liquidity distribution across venues. A spread that appears economically meaningful at a one-contract level may collapse once scaled to realistic capital allocation. Additionally, partial fill risk becomes nontrivial. If one side of the trade exhausts available liquidity before the other, the position may become directionally exposed rather than market-neutral.
@@ -28,7 +28,7 @@ These early observations led to the construction of my execution realism module.
 
 
 III. Edge Decomposition, Liquidity Constrained Sizing & Structural Normalization
-
+***
 Once execution realism reframes quoted prices as insufficient, the concept of edge itself must be reconsidered. A raw cross-venue spread does not account for execution degradation, fee friction, latency asymmetry, or structural differences in how markets are constructed across platforms. We quickly realized we cannot assume just a frictionless execution, but also structural equivalence between contracts, a condition that is often violated in categorical prediction markets.
 The need for structural normalization becomes particularly clear in multi-outcome markets. Consider a categorical market such as “Next UK Prime Minister in 2026.” Kalshi may list 61 possible candidates, while Polymarket lists only 20. Because total probability mass must sum to 100%, the presence of additional long-shot candidates necessarily redistributes probability across the entire outcome set. A candidate priced at 16¢ on a platform with 61 total outcomes is not mathematically equivalent to that same candidate priced at 25¢ on a platform offering only 20 outcomes. The naive price difference may reflect nothing more than differing probability mass allocation across a differently sized outcome space. Such discrepancies create phantom spreads that vanish once structural differences are accounted for.
 To prevent execution on these structural illusions, our framework incorporates an adjusted spread calculation designed specifically for categorical markets. The normalization process proceeds in three steps. First, the system identifies the overlapping candidates present on both platforms. Second, it calculates the total probability mass of this shared subset on each venue, isolating what may be considered the comparable outcome space. Third, the candidate’s price is mathematically normalized to this shared probability space before computing the cross-platform spread. Only after this normalization is the spread treated as a candidate for further execution analysis.
@@ -39,7 +39,7 @@ These considerations motivated the construction of my edge decomposition engine.
 
 
 IV. Temporal Dynamics & Exit Governance
-
+***
 Execution realism and edge decomposition determine whether a spread is structurally valid and executable at entry. They do not determine whether it will converge.
 Cross-venue arbitrage in prediction markets is inherently time-dependent. Even when a spread is entered at positive net edge, its subsequent path may not be monotonic. Spreads may widen before compressing, stall within narrow variance bands, or persist until the underlying real-world event resolves. During this period, capital remains deployed and exposed to both liquidity and temporal risk. As a result, arbitrage must be treated not as a static condition, but as a dynamic state variable evolving over time.
 The persistence module models this state evolution by identifying contiguous intervals during which net edge remains above threshold. This enables estimation of opportunity duration and detection of structural stalls. However, persistence measurement alone does not govern capital allocation. A formal exit framework is required.
@@ -60,12 +60,8 @@ The key insight is that arbitrage is not simply about detecting price difference
 
 
 V. Conclusion, Portability & Structural Generalization
-
+***
 The development of our project reflects a progression from textbook arbitrage theory to execution-constrained microstructure analysis. What initially began with the hope of finding simple cross-platform price discrepancies in prediction markets revealed deeper structural constraints: depth curvature, friction layering, probability mass mismatches, liquidity ceilings, and temporal uncertainty. Each module within the framework emerged as a response to one of these constraints, transforming arbitrage evaluation from a static price comparison into a structured capital allocation process.
 A central implication of this architecture is that its components are not venue-specific. The execution realism logic operates on generic limit orderbook structures. The adjusted spread framework addresses probability mass normalization in categorical markets. The edge decomposition engine formalizes friction layering independent of asset class. The temporal governance layer models convergence risk as a dynamic state variable rather than a binary outcome. These abstractions extend naturally beyond prediction markets.
 The crypto microstructure portability demonstration illustrates this generalization. By applying the same VWAP walking and slippage modeling logic to a continuous-price orderbook, the framework confirms that its core abstractions (depth-aware execution, nonlinear slippage scaling, and liquidity-sensitive sizing) are not dependent on bounded contract pricing or binary payoff structures. This portability reinforces the view that arbitrage analysis is fundamentally a microstructure problem rather than a venue-specific strategy.
 At its core, the framework reframes arbitrage as execution-constrained capital deployment under fragmentation and time. Apparent spreads must survive structural normalization, depth-aware execution, friction adjustment, and temporal governance before they can be considered economically meaningful. In this sense, cross platform arbitrage is not merely the presence of a price discrepancy, but the disciplined management of liquidity, probability mass, and convergence risk. In this framework, arbitrage is not assumed to be risk-free; it is modeled as risk-managed. 
-
-
-
-
